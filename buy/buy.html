@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+ <head>
+     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+     <title>梶の葉Webapp</title>
+     <meta name="description" content="長野西高校の文化祭「梶の葉祭」をより便利に楽しく参加いただけるウェブアプリです。マップの閲覧、商品の販売状況の確認、タイムスケジュールの確認ができます。">
+     <meta property="og:site_name" content="梶の葉Webapp">
+     <meta property="og:description" content="長野西高校の文化祭「梶の葉祭」をより便利に楽しく参加いただけるウェブアプリです。マップの閲覧、商品の販売状況の確認、タイムスケジュールの確認ができます。">
+     <!-- <meta property="og:type" content="ページのタイプを記載"> ←後で入力-->
+     <link rel="icon" href="img/favicon.ico">
+     <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+     <link href="base.css" rel="stylesheet">
+     <meta name="mobile-web-app-capable" content="yes">
+     <meta name="apple-mobile-web-app-capable" content="yes">
+     <link 
+        rel="stylesheet" 
+        href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+      />
+     <script src="js/jquery-1.5.min.js"></script>
+     <script>
+        $(function(){
+        //ページ内のaタグ群を取得。aTagsに配列として代入。
+        var aTags = $('a'); 
+        //全てのaタグについて処理
+      	aTags.each(function(){
+        //aタグのhref属性からリンク先url取得
+	　　  var url = $(this).attr('href');
+　　　　　//念のため、href属性は削除
+	 　　 $(this).removeAttr('href');
+         //クリックイベントをバインド
+	 　　 $(this).click(function(){
+	   　　 location.href = url;
+	 　　　});
+    　　　});
+  　　　});
+     </script>
+ </head>
+ <body>
+     <header>
+         <div class="header_h">
+                <div class="header_h_list">
+                    <div class="pageback">
+                        <a href="buy.html"><img src="img/pageback_l.png"></a>
+                    </div>
+                    <center>
+                        <h1 style="text-align:center"><font size="8">商品情報</font></h1>
+                    </center>
+                    <style type="text/css">
+                        .header_h h1 {
+                            color: rgb(112, 173, 71);
+                            text-align: center
+                        }
+                    </style>
+                    <style type="text/css">
+                        .header_h {
+                            height       : 80px;
+                        }
+                    </style>
+                    <div class="hamburger-menu">
+                        <input type="checkbox" id="menu-btn-check">
+                        <label for="menu-btn-check" class="menu-btn"><span></span></label>
+                        <!--ここからメニュー-->
+                        <div class="menu-content">
+                         <ul>
+                          <div class="menu_titil">
+                           <h3 style="text-align:center"><font size="8">メニュー</font></h3>
+                           <style tyle="text/css">
+                             .menu_titel h3 {
+                               color: rgb(0, 0, 0);
+                             }
+                           </style>
+                          </div>
+                          <div class="guide">
+                            <h4><font size="6">本ウェブアプリを使う皆様へ</font></h4>
+                             <div class="button_between">
+                               <style type="text/css">
+                                 .button_between {
+                                   background-color: rgb(65, 65, 65);
+                                   width: 100%;
+                                   height: 3px;
+                                   margin: 0px;
+                                }
+                               </style>
+                             </div>
+                             <a href="information.html">
+                              <div class="information_box">
+                              <h2><font size="7">お知らせ</font></h2>
+                              <img src="img/pageback_g.png">
+                              <style type="text/css">
+                                .information_box h2 {
+                                  height: 50px;
+                                  vertical-align: middle;
+                                  float: left;
+                                  color: rgb(0, 0, 0);
+                                  margin: 40px 0px 40px 20px;
+                                }
+                                .information_box img {
+                                  height: 50px;
+                                  float: right;
+                                  margin: 50px 20px 50px 0px;
+                                }
+                              </style>
+                              <style type="text/css">
+                                .information_box {
+                                  background-color: rgb(213, 213, 213);
+                                  width: 100%;
+                                  height: 150px;
+                                  margin: 0px;
+                               }
+                              </style>
+                            </div></a>
+                            <div class="button_between"></div>
+                            <style type="text/css">
+                              .guide h4 {
+                                margin: 30px 0px 0px 20px;
+                              }
+                            </style>
+                          </div>
+                           <div class="use">
+                            <h4><font size="6">本ウェブアプリを使うにあたって</font></h4>
+                             <div class="button_between"></div>
+                             <a href="useguide.html">
+                              <div class="guide_box">
+                              <h2><font size="7">使い方</font></h2>
+                              <img src="img/pageback_g.png">
+                              <style type="text/css">
+                                .guide_box h2 {
+                                  height: 50px;
+                                  vertical-align: middle;
+                                  float: left;
+                                  color: rgb(0, 0, 0);
+                                  margin: 40px 0px 40px 20px;
+                                }
+                                .guide_box img {
+                                  height: 50px;
+                                  float: right;
+                                  margin: 50px 20px 50px 0px;
+                                }
+                              </style>
+                              <style type="text/css">
+                                .guide_box {
+                                  background-color: rgb(213, 213, 213);
+                                  width: 100%;
+                                  height: 150px;
+                                  margin: 0px;
+                               }
+                              </style>
+                            </div></a>
+                            <div class="button_between"></div>
+                            <a href="caution.html">
+                              <div class="caution_box">
+                              <h2><font size="7">注意事項</font></h2>
+                              <img src="img/pageback_g.png">
+                              <style type="text/css">
+                                .caution_box h2 {
+                                  height: 50px;
+                                  vertical-align: middle;
+                                  float: left;
+                                  color: rgb(0, 0, 0);
+                                  margin: 40px 0px 40px 20px;
+                                }
+                                .caution_box img {
+                                  height: 50px;
+                                  float: right;
+                                  margin: 50px 20px 50px 0px;
+                                }
+                              </style>
+                              <style type="text/css">
+                                .caution_box {
+                                  background-color: rgb(213, 213, 213);
+                                  width: 100%;
+                                  height: 150px;
+                                  margin: 0px;
+                               }
+                              </style>
+                            </div></a>
+                            <div class="button_between"></div>
+                           <a href="rules.html">
+                            <div class="rules_box">
+                              <h2><font size="7">利用規約</font></h2>
+                              <img src="img/pageback_g.png">
+                              <style type="text/css">
+                                .rules_box h2 {
+                                  height: 50px;
+                                  vertical-align: middle;
+                                  float: left;
+                                  color: rgb(0, 0, 0);
+                                  margin: 40px 0px 40px 20px;
+                                }
+                                .rules_box img {
+                                  height: 50px;
+                                  float: right;
+                                  margin: 50px 20px 50px 0px;
+                                }
+                              </style>
+                              <style type="text/css">
+                                .rules_box {
+                                  background-color: rgb(213, 213, 213);
+                                  width: 100%;
+                                  height: 150px;
+                                  margin: 0px;
+                               }
+                              </style>
+                            </div></a>
+                            <div class="button_between"></div>
+                           <a href="privacy.html">
+                            <div class="privacy_box">
+                              <h2><font size="7">プライバシーポリシー</font></h2>
+                              <img src="img/pageback_g.png">
+                              <style type="text/css">
+                                .privacy_box h2 {
+                                  height: 50px;
+                                  vertical-align: middle;
+                                  float: left;
+                                  color: rgb(0, 0, 0);
+                                  margin: 40px 0px 40px 20px;
+                                }
+                                .privacy_box img {
+                                  height: 50px;
+                                  float: right;
+                                  margin: 50px 20px 50px 0px;
+                                }
+                              </style>
+                              <style type="text/css">
+                                .privacy_box {
+                                  background-color: rgb(213, 213, 213);
+                                  width: 100%;
+                                  height: 150px;
+                                  margin: 0px;
+                               }
+                              </style>
+                            </div></a>
+                            <div class="button_between"></div>
+                            <style type="text/css">
+                              .use h4 {
+                                margin: 30px 0px 0px 20px;
+                              }
+                            </style>
+                          </div>
+                           <div class="others">
+                            <h4><font size="6">その他</font></h4>
+                             <div class="button_between"></div>
+                             <a href="info.html">
+                              <div class="info_box">
+                              <h2><font size="7">お問い合わせ</font></h2>
+                              <img src="img/pageback_g.png">
+                              <style type="text/css">
+                                .info_box h2 {
+                                  height: 50px;
+                                  vertical-align: middle;
+                                  float: left;
+                                  color: rgb(0, 0, 0);
+                                  margin: 40px 0px 40px 20px;
+                                }
+                                .info_box img {
+                                  height: 50px;
+                                  float: right;
+                                  margin: 50px 20px 50px 0px;
+                                }
+                              </style>
+                              <style type="text/css">
+                                .info_box {
+                                  background-color: rgb(213, 213, 213);
+                                  width: 100%;
+                                  height: 150px;
+                                  margin: 0px;
+                               }
+                              </style>
+                            </div></a>
+                            <div class="button_between"></div>
+                            <style type="text/css">
+                              .others h4 {
+                                margin: 30px 0px 0px 20px;
+                              }
+                            </style>
+                          </div>
+                          <div class="copyright">
+                            <p>Copyright © Nagano Nishi High School kajinoha Fes Broadcaster , All rights reserved.</p>
+                            <style type="text/css">
+                              .copyright p {
+                                margin: 80px 0px 0px 0px;
+                                text-align: center;
+                                color: rgb(137, 137, 137);
+                              }
+                            </style>
+                          </div>                              
+                         </ul>
+                       </div>
+                       <!--ここまでメニュー-->
+                    </div>
+                    <style type="text/css">
+                        .hamburger-menu {
+                            margin: 0;
+                            padding: 0;
+                        }
+                        .menu-btn {
+                            position: fixed;
+                            top: 10px;
+                            right: 10px;
+                            display: flex;
+                            height: 85px;
+                            width: 85px;
+                            justify-content: center;
+                            align-items: center;
+                            z-index: 90;
+                            background-color: #ffffff;
+                        }
+                        .menu-btn span,
+                        .menu-btn span:before,
+                        .menu-btn span:after {
+                            content: '';
+                            display: block;
+                            height: 7px;
+                            width: 60px;
+                            border-radius: 7px;
+                            background-color: rgb(112, 173, 71);
+                            position: absolute;
+                        }
+                        .menu-btn span:before {
+                            bottom: 19px;
+                        }
+                        .menu-btn span:after {
+                            top: 19px;
+                        }
+                        #menu-btn-check:checked ~ .menu-btn span {
+                            background-color: rgba(255, 255, 255, 0);/*メニューオープン時は真ん中の線を透明にする*/
+                        }
+                        #menu-btn-check:checked ~ .menu-btn span::before {
+                            bottom: 0;
+                            transform: rotate(45deg);
+                        }
+                        #menu-btn-check:checked ~ .menu-btn span::after {
+                            top: 0;
+                            transform: rotate(-45deg);
+                        }
+                        #menu-btn-check {
+                           display: none;
+                        }
+                        .menu-content {
+                           width: 100%;
+                           height: 100%;
+                           position: fixed;
+                           top: 0;
+                           left: 0;
+                           z-index: 80;
+                           margin: 0;
+                           padding: 0;
+                        }
+                        .menu-content ul {
+                           padding: 70px 10px 0;
+                           margin: 100px 0px 0px 0px;
+                           padding: 0;
+                        }
+                       .menu-content ul li {
+                           list-style: none;
+                           margin: 0;
+                           padding: 0;
+                        }
+                       .menu-content {
+                           width: 100%;
+                           height: 100%;
+                           position: fixed;
+                           top: 0;
+                           left: 100%;/*leftの値を変更してメニューを画面外へ*/
+                           z-index: 80;
+                           background-color: #ffffff;
+                           transition: all 0.5s;/*アニメーション設定*/
+                           margin: 0;
+                           padding: 0;
+                        }
+                        #menu-btn-check:checked ~ .menu-content {
+                           left: 0;/*メニューを画面内へ*/
+                        }
+                    </style>
+                </div>
+         </div>
+         <div class="header_l">
+            <style type="text/css">
+                .header_l {
+                    background-color: rgb(112, 173, 71);
+                    width: 100%;
+                    height: 5px;
+                }
+            </style>
+         </div>
+     </header>
+
+     <div class="pagetop" id="makeImg">
+      <style type="text/css">
+        .pagetop {
+          margin       : auto;
+          width        : 100%;
+          height       : 20px;
+          background-color: rgb(255, 255, 255);
+        }
+        </style>
+    </div>  
+
+      <!-- Slider main container -->
+      <div class="swiper">
+        <!-- Additional required wrapper -->
+        <div class="swiper-wrapper">
+            <!-- Slides -->
+            <div class="swiper-slide">
+               <img src="https://www.jreast.co.jp/img/bnr/top/recommend/jrebank_pc.jpg" alt="">
+            </div>
+            <div class="swiper-slide">
+              <img src="https://www.jreast.co.jp/img/bnr/top/railway/offpeak_2024_secondhalf_pc.jpg" alt="">
+            </div>
+            <div class="swiper-slide">
+              <img src="https://www.jreast.co.jp/img/bnr/top/recommend/traintrip2410_pc.jpg" alt="">
+            </div>
+        </div>
+        <!-- If we need pagination -->
+        <div class="swiper-pagination"></div>
+         
+        <!-- If we need navigation buttons 
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+        -->
+ 
+         <!-- If we need scrollbar 
+        <div class="swiper-scrollbar"></div>
+        -->
+      </div>
+     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+     <script>
+        const swiper = new Swiper('.swiper', {
+            // Optional parameters
+            direction: 'horizontal',
+            loop: true,
+            speed: 1000,
+            autoplay: true,
+            mousewheel: true,
+        
+            // If we need pagination
+            pagination: {
+                el: '.swiper-pagination',
+              },
+
+            // Navigation arrows
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+              },
+
+            // And if we need scrollbar
+            scrollbar: {
+                el: '.swiper-scrollbar',
+              },
+           });
+     </script>
+      <style>
+        .swiper {
+          width: 95%;
+          z-index: -1;
+        }
+        .swiper img{
+          width: 100%;
+          height: 95%;
+          object-fit: contain;
+        }
+        .swiper-pagination-bullet {
+         background-color: rgb(112, 173, 71);
+        }
+        .swiper-button-prev{
+          color: rgb(112, 173, 71);
+        }
+        .swiper-button-next{
+          color: rgb(112, 173, 71);
+        }
+        .swiper-pagination-bullets.swiper-pagination-horizontal {
+          bottom: -20px;
+        }
+      </style>  
+
+
+<script>
+  document.addEventListener( 'DOMContentLoaded', function () {
+    new Splide( '#image-carousel' ).mount();
+  } );
+</script>
+
+<script>
+  new Splide( '#image-carousel' ).mount();
+</script> 
+
+     <footer>
+        <div class="reload">
+          <a href="buy.html"><img src="img/reload.png" class="img-reload"></a>
+        </div>  
+        <div class="box" id="makeImg">
+          <style type="text/css">
+            .box {
+              margin       : auto;
+              width        : 100%;
+              height       : 3px;
+              background-color: rgb(112, 173, 71);
+            }
+            </style>
+        </div>
+        <div class="box1" id="makeImg">
+          <style type="text/css">
+            .box1 {
+              margin       : auto;
+              width        : 100%;
+              height       : 5px;
+              background-color: rgb(255, 255, 255);
+            }
+            </style>
+        </div>  
+        <div class="box3" id="makeImg">
+          <style type="text/css">
+            .box3 {
+              margin       : auto;
+              width        : 100%;
+              height       : 120px;
+              background-color: rgb(255, 255, 255);
+            }
+            </style>
+          <div class="footer-menu">
+            <ul class="top-banner">
+              <li><a href="maps.html"><img src="img/maps_icon.png"></a></li>
+              <li><a href="buy.html"><img src="img/buy_buy_icon.png"></a></li>
+              <li><a href="schedule.html"><img src="img/schedule_icon.png"></a></li>
+              <li><a href="chat.html"><img src="img/chat_icon.png"></a></li>
+              <li><a href="forms.html"><img src="img/forms_icon.png"></a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="box2" id="makeImg">
+          <style type="text/css">
+            .box2 {
+              margin       : auto;
+              width        : 100%;
+              height       : 30px;
+              background-color: rgb(255, 255, 255);
+            }
+            </style>
+        </div>  
+     </footer>
+ </body>
+</html>
