@@ -1,7 +1,10 @@
-if (window.navigator.standalone) {
-    $('a').on('touchend', function(e) {
-      e.preventDefault();
-      location.href = e.target.href;
-      return false;
-    });
-  }
+$(document).ready(function() {
+  $('a:not(".back")').each(function(){
+    var link = $(this).attr('href');
+  $(this).removeAttr('href');
+  $(this).click(function(){
+    location.href = link;
+  });
+});
+
+});
