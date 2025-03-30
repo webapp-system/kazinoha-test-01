@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音声再生アプリ</title>
+</head>
+<body>
+    <p id="value">最新の数値: 読み込み中...</p>
+    <script>
+        let lastValue = null;
+        const gasUrl = "https://script.google.com/macros/s/AKfycbykftbR8KTzUqviqi6GL7VcE8xPk6QBt3MrhwBAIRCuVlRutQ5QnYWWh1VqE5uMzi0-AQ/exec"; // GASのURLを設定
+
+        async function fetchValue() {
+            try {
+                let response = await fetch(gasUrl);
+                let value = await response.text();
+                value = value.trim();
+                document.getElementById("value").innerText = "最新の数値: " + value;
+
+                if (value !== lastValue) {
+                    lastValue = value;
+                    playAudio(value);
+                }
+            } catch (error) {
+                console.error("データ取得エラー", error);
+            }
+        }
+
+        function playAudio(value) {
+            let audioFiles = [];
+            if (value === "1") {
+                audioFiles = ["address1.wav", "stock_1.wav", "mitei.wav"];
+            } else if (value === "2") {
+                audioFiles = ["address1.wav", "stock_1.wav", "not_resale.wav"];
+            }
+
+            if (audioFiles.length > 0) {
+                playSequentially(audioFiles);
+            }
+        }
+
+        function playSequentially(files) {
+            let index = 0;
+            const audio = new Audio(files[index]);
+            audio.play();
+
+            audio.addEventListener("ended", () => {
+                index++;
+                if (index < files.length) {
+                    const nextAudio = new Audio(files[index]);
+                    nextAudio.play();
+                    nextAudio.addEventListener("ended", () => playSequentially(files.slice(index + 1)));
+                }
+            });
+        }
+
+        window.onload = fetchValue;
+        setInterval(fetchValue, 30000); // 30秒ごとにリロード
+    </script>
+</body>
+</html>
+
+
