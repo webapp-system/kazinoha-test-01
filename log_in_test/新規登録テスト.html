@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>新規登録</title>
+</head>
+<body>
+  <h2>新規登録</h2>
+  <input type="email" id="reg_email" placeholder="メールアドレス" required><br>
+  <input type="password" id="reg_password" placeholder="パスワード" required><br>
+  <input type="password" id="reg_password_confirm" placeholder="パスワード（確認）" required><br>
+  <button onclick="register()">登録</button>
+  <div id="reg_message"></div>
+  <p><a href="ログインテスト.html">ログインはこちら</a></p>
+
+  <script>
+    async function sha256(message) {
+      const msgBuffer = new TextEncoder().encode(message);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function register() {
+      const email = document.getElementById("reg_email").value;
+      const password = document.getElementById("reg_password").value;
+      const confirm = document.getElementById("reg_password_confirm").value;
+      const msg = document.getElementById("reg_message");
+
+      if (password !== confirm) {
+        msg.innerText = "パスワードが一致しません。";
+        msg.style.color = "red";
+        return;
+      }
+
+      const hash = await sha256(password);
+
+      fetch("https://script.google.com/macros/s/AKfycbwArQ_1Eex9pJQG991N6RE8FSNLkfmRHEtCu3n0A8iZ-Yk-Hmhe6MX2MvbEgsRjcc68/exec", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          mode: "register",
+          email: email,
+          password: hash
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        msg.innerText = data.message;
+        msg.style.color = data.success ? "green" : "red";
+        if (data.success) {
+          setTimeout(() => location.href = "ログインテスト.html", 2000);
+        }
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ログイン</title>
+</head>
+<body>
+  <h2>ログイン</h2>
+  <input type="email" id="login_email" placeholder="メールアドレス" required><br>
+  <input type="password" id="login_password" placeholder="パスワード" required><br>
+  <button onclick="login()">ログイン</button>
+  <div id="login_message"></div>
+  <p><a href="新規登録テスト.html">新規登録はこちら</a></p>
+
+  <script>
+    async function sha256(message) {
+      const msgBuffer = new TextEncoder().encode(message);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function login() {
+      const email = document.getElementById("login_email").value;
+      const password = document.getElementById("login_password").value;
+      const hash = await sha256(password);
+      const msg = document.getElementById("login_message");
+
+      fetch("https://script.google.com/macros/s/AKfycbwArQ_1Eex9pJQG991N6RE8FSNLkfmRHEtCu3n0A8iZ-Yk-Hmhe6MX2MvbEgsRjcc68/exec", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          mode: "login",
+          email: email,
+          password: hash
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          localStorage.setItem("userRole", data.role);
+          location.href = "home.html";
+        } else {
+          msg.innerText = data.message;
+          msg.style.color = "red";
+        }
+      });
+    }
+  </script>
+</body>
+</html>

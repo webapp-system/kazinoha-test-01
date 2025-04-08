@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ホーム</title>
+</head>
+<body>
+  <h2>ホームページ</h2>
+  <p id="role_display"></p>
+  <button onclick="logout()">ログアウト</button>
+
+  <script>
+    window.onload = () => {
+      const role = localStorage.getItem("userRole");
+      if (!role) {
+        location.href = "ログインテスト.html";
+        return;
+      }
+      document.getElementById("role_display").innerText = `あなたのロール：${role}`;
+    };
+
+    function logout() {
+      localStorage.removeItem("userRole");
+      location.href = "ログインテスト.html";
+    }
+  </script>
+</body>
+</html>
