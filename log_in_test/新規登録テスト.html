@@ -1,58 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <title>新規登録</title>
 </head>
 <body>
-  <h2>新規登録</h2>
-  <input type="email" id="reg_email" placeholder="メールアドレス" required><br>
-  <input type="password" id="reg_password" placeholder="パスワード" required><br>
-  <input type="password" id="reg_password_confirm" placeholder="パスワード（確認）" required><br>
-  <button onclick="register()">登録</button>
-  <div id="reg_message"></div>
-  <p><a href="ログインテスト.html">ログインはこちら</a></p>
+  <h2>新規登録フォーム</h2>
+  <form id="registerForm">
+    <label for="email">メールアドレス：</label>
+    <input type="email" id="email" required><br><br>
+
+    <label for="password">パスワード：</label>
+    <input type="password" id="password" required><br><br>
+
+    <label for="confirm">パスワード確認：</label>
+    <input type="password" id="confirm" required><br><br>
+
+    <button type="submit">登録</button>
+  </form>
+
+  <p id="reg_message"></p>
 
   <script>
-    async function sha256(message) {
-      const msgBuffer = new TextEncoder().encode(message);
-      const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    }
+    document.getElementById("registerForm").addEventListener("submit", function(e) {
+      e.preventDefault();
 
-    async function register() {
-      const email = document.getElementById("reg_email").value;
-      const password = document.getElementById("reg_password").value;
-      const confirm = document.getElementById("reg_password_confirm").value;
-      const msg = document.getElementById("reg_message");
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const confirm = document.getElementById("confirm").value;
 
       if (password !== confirm) {
-        msg.innerText = "パスワードが一致しません。";
-        msg.style.color = "red";
+        document.getElementById("reg_message").innerText = "パスワードが一致しません。";
         return;
       }
 
-      const hash = await sha256(password);
-
-      fetch("https://script.google.com/macros/s/AKfycbwArQ_1Eex9pJQG991N6RE8FSNLkfmRHEtCu3n0A8iZ-Yk-Hmhe6MX2MvbEgsRjcc68/exec", {
+      fetch("https://script.google.com/macros/s/AKfycbw61JtM2EFZrNilv-KTg5cE22uUDeaElJ8dVVmqNy5b3ZHgxQ6YJnmhCSjmem___rTD/exec", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({
           mode: "register",
           email: email,
-          password: hash
+          password: password
         })
       })
-      .then(res => res.json())
+      .then(response => response.json())
       .then(data => {
-        msg.innerText = data.message;
-        msg.style.color = data.success ? "green" : "red";
-        if (data.success) {
-          setTimeout(() => location.href = "ログインテスト.html", 2000);
-        }
+        document.getElementById("reg_message").innerText = data.message;
+      })
+      .catch(error => {
+        console.error("登録エラー:", error);
+        document.getElementById("reg_message").innerText = "通信エラーが発生しました。";
       });
-    }
+    });
   </script>
 </body>
 </html>
