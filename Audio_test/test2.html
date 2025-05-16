@@ -7,34 +7,38 @@
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      margin-top: 100px;
+      padding-top: 50px;
     }
-    input, button {
-      font-size: 1.2em;
+    input {
+      font-size: 24px;
       padding: 10px;
-      margin-top: 10px;
+      width: 200px;
+      text-align: center;
+    }
+    button {
+      font-size: 20px;
+      padding: 10px 20px;
+      margin-left: 10px;
     }
   </style>
 </head>
 <body>
   <h1>コードを入力してください</h1>
-  <input type="text" id="codeInput" placeholder="例：0412">
-  <br>
+  <input type="number" id="codeInput" placeholder="コードを入力" inputmode="numeric" />
   <button onclick="goToPage()">送信</button>
-  <p id="error" style="color:red;"></p>
 
   <script>
     function goToPage() {
-      const code = document.getElementById("codeInput").value.trim();
-      const redirectMap = {
-        "0412": "test.html",
+      const code = document.getElementById("codeInput").value;
+      const pageMap = {
+        "0412": "info.html",
         "6301": "titel.html"
       };
 
-      if (redirectMap[code]) {
-        window.location.href = redirectMap[code];
+      if (pageMap[code]) {
+        window.location.href = pageMap[code];
       } else {
-        document.getElementById("error").textContent = "コードが正しくありません。";
+        alert("無効なコードです");
       }
     }
   </script>
