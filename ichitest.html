@@ -1,78 +1,79 @@
 <!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>100mグリッド仕分けデモ</title>
-  <style>
-    body { font-family: sans-serif; padding: 20px; }
-    .panel { display: none; padding: 20px; margin: 10px 0; border-radius: 8px; }
-    .gridA { background: #eef; }
-    .gridB { background: #efe; }
-    .gridC { background: #fee; }
-    .default { background: #ddd; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>100mグリッド リアルタイム切替デモ</title>
+<style>
+  body { font-family: sans-serif; padding: 20px; }
+  .panel { display: none; padding: 20px; margin: 10px 0; border-radius: 8px; color: #000; }
+  .gridA { background: #eef; }
+  .gridB { background: #efe; }
+  .gridC { background: #fee; }
+  .default { background: #ddd; }
+  #status { margin-bottom: 10px; }
+</style>
 </head>
 <body>
-  <h1>100mグリッドごとに表示切り替え</h1>
-  <div id="status">位置情報を取得中...</div>
+<h1>100mグリッド リアルタイム表示切替</h1>
+<div id="status">位置情報取得中…</div>
 
-  <div id="gridA" class="panel gridA">この区画は A のコンテンツです</div>
-  <div id="gridB" class="panel gridB">この区画は B のコンテンツです</div>
-  <div id="gridC" class="panel gridC">この区画は C のコンテンツです</div>
-  <div id="default" class="panel default">その他の区画のコンテンツです</div>
+<div id="gridA" class="panel gridA">この区画は A のコンテンツです</div>
+<div id="gridB" class="panel gridB">この区画は B のコンテンツです</div>
+<div id="gridC" class="panel gridC">この区画は C のコンテンツです</div>
+<div id="default" class="panel default">その他の区画のコンテンツです</div>
 
-  <script>
-    // グリッドサイズ（m）
-    const GRID_SIZE = 100;
+<script>
+  const GRID_SIZE = 100; // 100m四方グリッド
+  const statusEl = document.getElementById("status");
 
-    // 緯度経度から「グリッドID」を求める
-    function getGridId(lat, lon) {
-      // 緯度1度あたりの距離（m）
-      const latMeter = 111000;
-      // 経度1度あたりの距離（m）（緯度に依存）
-      const lonMeter = 111000 * Math.cos(lat * Math.PI / 180);
+  // 緯度経度からグリッドIDを計算
+  function getGridId(lat, lon) {
+    const latMeter = 111000; // 緯度1度あたりの距離(m)
+    const lonMeter = 111000 * Math.cos(lat * Math.PI / 180); // 経度1度あたりの距離(m)
+    const x = lon * lonMeter;
+    const y = lat * latMeter;
+    const gx = Math.floor(x / GRID_SIZE);
+    const gy = Math.floor(y / GRID_SIZE);
+    return `${gx}_${gy}`;
+  }
 
-      // 緯度経度をメートル換算
-      const x = lon * lonMeter;
-      const y = lat * latMeter;
+  // グリッドIDに応じて表示切替
+  function showGrid(gridId) {
+    document.querySelectorAll(".panel").forEach(el => el.style.display = "none");
+    statusEl.textContent = "現在のグリッドID: " + gridId;
 
-      // グリッドにスナップ（整数化）
-      const gx = Math.floor(x / GRID_SIZE);
-      const gy = Math.floor(y / GRID_SIZE);
-
-      return `${gx}_${gy}`;
+    // 任意のグリッドに割り当て（例）
+    if (gridId === "1234_5678") {
+      document.getElementById("gridA").style.display = "block";
+    } else if (gridId === "1234_5679") {
+      document.getElementById("gridB").style.display = "block";
+    } else if (gridId === "1235_5678") {
+      document.getElementById("gridC").style.display = "block";
+    } else {
+      document.getElementById("default").style.display = "block";
     }
+  }
 
-    // 表示を切り替える
-    function showGrid(gridId) {
-      document.querySelectorAll(".panel").forEach(el => el.style.display = "none");
-
-      document.getElementById("status").textContent = "あなたのグリッドID: " + gridId;
-
-      // 特定のグリッドIDを任意で割り当て（例）
-      if (gridId === "1234_5678") {
-        document.getElementById("gridA").style.display = "block";
-      } else if (gridId === "1234_5679") {
-        document.getElementById("gridB").style.display = "block";
-      } else if (gridId === "1235_5678") {
-        document.getElementById("gridC").style.display = "block";
-      } else {
-        document.getElementById("default").style.display = "block";
-      }
-    }
-
-    // 位置情報取得
-    navigator.geolocation.getCurrentPosition(pos => {
+  // リアルタイム追跡
+  if ("geolocation" in navigator) {
+    navigator.geolocation.watchPosition(pos => {
       const lat = pos.coords.latitude;
       const lon = pos.coords.longitude;
       const gridId = getGridId(lat, lon);
       showGrid(gridId);
     }, err => {
-      document.getElementById("status").textContent = "位置情報エラー: " + err.message;
+      statusEl.textContent = "位置情報取得エラー: " + err.message;
+      document.getElementById("default").style.display = "block";
     }, {
-      enableHighAccuracy: true
+      enableHighAccuracy: true,
+      maximumAge: 0,
+      timeout: 10000
     });
-  </script>
+  } else {
+    statusEl.textContent = "ブラウザが位置情報APIに対応していません";
+    document.getElementById("default").style.display = "block";
+  }
+</script>
 </body>
 </html>
