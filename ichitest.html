@@ -2,16 +2,16 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>100mグリッド 🍌 表示デモ</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>100mグリッド 🍌表示デモ</title>
 <style>
-  body { font-family: sans-serif; padding: 20px; text-align: center; }
-  #status { margin-bottom: 20px; font-size: 16px; }
-  #banana { font-size: 100px; display: none; }
+  body { font-family: sans-serif; padding: 20px; font-size: 24px; }
+  #status { margin-bottom: 20px; }
+  #banana { display: none; }
 </style>
 </head>
 <body>
-<h1>100mグリッド 🍌 表示デモ</h1>
+<h1>(test)100mグリッド リアルタイム 🍌表示</h1>
 <div id="status">位置情報取得中…</div>
 <div id="banana">🍌</div>
 
@@ -22,8 +22,8 @@
 
   // 緯度経度からグリッドIDを計算
   function getGridId(lat, lon) {
-    const latMeter = 111000; // 緯度1度あたりの距離(m)
-    const lonMeter = 111000 * Math.cos(lat * Math.PI / 180); // 経度1度あたりの距離(m)
+    const latMeter = 111000;
+    const lonMeter = 111000 * Math.cos(lat * Math.PI / 180);
     const x = lon * lonMeter;
     const y = lat * latMeter;
     const gx = Math.floor(x / GRID_SIZE);
@@ -32,23 +32,23 @@
   }
 
   // 表示切替
-  function showBanana(gridId) {
-    if (gridId === "123036_140697") {
+  function showGrid(gridId) {
+    if(gridId === "123036_40697") {
       bananaEl.style.display = "block";
-      statusEl.textContent = "🍌 グリッドにいます！";
+      statusEl.textContent = "🍌 グリッドに到達しました！ID: " + gridId;
     } else {
       bananaEl.style.display = "none";
       statusEl.textContent = "現在のグリッドID: " + gridId;
     }
   }
 
-  // リアルタイム位置追跡
+  // リアルタイム追跡
   if ("geolocation" in navigator) {
     navigator.geolocation.watchPosition(pos => {
       const lat = pos.coords.latitude;
       const lon = pos.coords.longitude;
       const gridId = getGridId(lat, lon);
-      showBanana(gridId);
+      showGrid(gridId);
     }, err => {
       statusEl.textContent = "位置情報取得エラー: " + err.message;
       bananaEl.style.display = "none";
@@ -59,7 +59,6 @@
     });
   } else {
     statusEl.textContent = "ブラウザが位置情報APIに対応していません";
-    bananaEl.style.display = "none";
   }
 </script>
 </body>
